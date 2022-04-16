@@ -10,6 +10,7 @@ NMAP_OPTIONS="T4"
 NMAP_SCANFILE="nmap_scan"
 WORKDIR=/home/certscan/workdir/workdir
 TESTSSL_OPTIONS="--warnings=batch --openssl-timeout=60 --overwrite "
+NAMED_SCANFILE="named_scan"
 
 echo "CERTSCAN.sh - automate finding, scanning and adding to Elastic SSL certs on networks"
 
@@ -46,6 +47,9 @@ if [ -f $WORKDIR/npo ]; then
 	ssl_split_scans.py -i $WORKDIR/npo -d $WORKDIR
 fi
 
+# TESTING
+rm $WORKDIR/scan_ips*
+
 # now lets loop through the host files and do some scans
 for f in $WORKDIR/scan_ips*; do
 	echo "Processing $f file..";
@@ -74,5 +78,18 @@ for f in $WORKDIR/scan_ips*; do
 		parallel < $WORKDIR/testssl.run
 	fi
 done
+
+# empty out hosts files to exit clean
+ssl_load_hosts.py -d
+
+echo $WORKDIR/$NAMED_SCAN
+# If there is a named scan file, then process/scan that
+if [ -f $WORKDIR/$NAMED_SCANFILE ]; then
+	echo "Processing named scan file ($NAMED_SCANFILE)";	
+	# Generate the parallels file
+	generate_scan_file.py -a "$TESTSSL_OPTIONS --csvfile $WORKDIR"  $WORKDIR/$NAMED_SCANFILE > $WORKDIR/testssl.run
+	parallel < $WORKDIR/testssl.run
+fi
+
 
 
