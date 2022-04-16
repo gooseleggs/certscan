@@ -8,10 +8,10 @@ TO DO:
  - do the elastic dashboards for testssl.sh-masscan
 
 
-##Purpose
+## Purpose
 Scans networks for port with certificates, scans them, and then loads into Elastic
 
-##How it works
+## How it works
 There are a number of really great projects out there to do what I wanted to do.  This brings them togeather for what I want.  So, we have NMAP that scans networks.  Then, we use NMAP-Parse-output to extract out of the NMAP results the ports etc that we want.  We then break that output, and define how many different scans we need to scan all the different IPs and hosts for the certificates.  We then scan any named locations/ports.  Once that is done, then we use an updated Testssl.sh-masscan to import the results into Elastic.  See - easy
 
 ## Defining what is scanned
