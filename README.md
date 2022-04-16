@@ -1,5 +1,13 @@
 # certscan
 
+NOTE:  THIS IS CURRENTLY UNDER DEVELOPMENT AND VERY EXPERIMENTAL.  BY ALL MEANS DOWNLOAD AND SEE WHAT I AM DOING, OR EVEN BETTER ADD TO THE PROJECT.  THIS IS VERY ALPHA UNDER FLUID CHANGES.  DON'T EXPECT IT TO WORK AT THE MOMENT
+
+TO DO:  
+ - Error handling in scripts
+ - fix up Dockerfile for certscan 
+ - do the elastic dashboards for testssl.sh-masscan
+
+
 ##Purpose
 Scans networks for port with certificates, scans them, and then loads into Elastic
 
