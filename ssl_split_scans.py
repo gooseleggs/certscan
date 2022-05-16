@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import sys, getopt
 #from future.backports.test.pystone import FALSE
@@ -7,10 +7,10 @@ def main(argv):
     inputFile = ''
     outputDir = '.'
     CNs = {}
+    quiet = False
     
-    print ("ssl_split scans - splits a nmap-parse-output file into scan directories")
     try:
-        opts, args = getopt.getopt(argv,"hi:d:",["input-file=","output-dir="])
+        opts, args = getopt.getopt(argv,"hqi:d:",["input-file=","output-dir="])
     except getopt.GetoptError:
         print ('ssl_split_scans.py -i <inputfile> -d <output_dir>')
         sys.exit(2)
@@ -18,14 +18,17 @@ def main(argv):
         if opt == '-h':
             print ('ssl_split_scans.py -i <inputfile> -d <output_dir>')
             sys.exit()
+        if opt == '-q':
+            quiet = True           
         elif opt in ("-i", "--input-file"):
             inputFile = arg
         elif opt in ("-d", "--output-dir"):
             outputDir = arg            
     
-  
+    if not quiet:
+        print ("ssl_split scans - splits a nmap-parse-output file into scan directories")
     # Open the file and read through file
-    file = open('npo', 'r')
+    file = open(inputFile, 'r')
     Lines = file.readlines()
     file.close()
  

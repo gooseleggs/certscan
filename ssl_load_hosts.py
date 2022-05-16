@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # Purpose of this script is to load the hosts file with additional hosts for the scan
 # options
@@ -11,10 +11,10 @@ import re
 def main(argv):
     inputFile = ''
     deleteOnly = False
-    
-    print ("ssl_load_hosts.py scans - splits a nmap-parse-output file into scan directories")
+    quiet = False
+   
     try:
-        opts, args = getopt.getopt(argv,"hi:d",["input-file=","delete-only"])
+        opts, args = getopt.getopt(argv,"hqi:d",["input-file=","delete-only"])
     except getopt.GetoptError:
         print ('ssl_load_hosts.py -i <inputfile> -d')
         print ('  -i File to load, already in the hosts file format')
@@ -26,12 +26,15 @@ def main(argv):
             print ('  -i File to load, already in the hosts file format')
             print ('  -d only delete the hosts file')
             sys.exit()
+        if opt == '-q':
+            quiet = True           
         elif opt in ("-i", "--input-file"):
             inputFile = arg
         elif opt in ("-d", "--delete"):
             deleteOnly = True            
     
-  
+    if not quiet:
+        print ("ssl_load_hosts.py scans - splits a nmap-parse-output file into scan directories")
     # Read in the file
     if not deleteOnly:
         file = open(inputFile, 'r')
