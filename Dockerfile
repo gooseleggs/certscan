@@ -15,6 +15,8 @@ RUN cd /home/certscan/ && git clone https://github.com/ernw/nmap-parse-output.gi
 	ln -s /home/certscan/nmap-parse-output/nmap-parse-output /usr/local/bin && \
 	mkdir -p /home/certscan/workdir
 
+RUN python3 -m pip install elasticsearch_dsl tzlocal
+COPY ./certscan.sh /usr/local/bin
 # Install testssl.sh-masscan    
     
 #RUN apk update && \
@@ -33,6 +35,6 @@ WORKDIR /home/certscan/
 #COPY --chown=testssl:testssl bin/. /home/testssl/bin/
 #COPY --chown=testssl:testssl testssl.sh /home/testssl/
 
-#ENTRYPOINT ["testssl.sh"]
+ENTRYPOINT ["certscan.sh"]
 
 #CMD ["--help"]
