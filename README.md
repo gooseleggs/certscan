@@ -21,4 +21,25 @@ We use NMAP to extract ther certificate name of each certificate that it finds. 
 scenario 1  
 Think about you have a SAN certificate with multiple host names.  We are only interested is getting the CN, or the main name.  Lets assume that we get a CN or *host.example.com*.  If we find this certificate across multiple hosts, we need to ensure that when we talk to *host.example.com*, that we are actually talking to the host we want.  Therefore, we split the list up as required to ensure that this happens.
 
-Blah blash - more to come
+Elasticsearch index appends the year and month to the index name
+
+# Forcing internal sites to be tagged as external
+When you are performing a scan internally, there may be some hosts that are also available from the outside, and you want to force those hosts to be tagged as External.  To do this, put the host IPs or hostnames into the `EXTERNAL_HOSTS` variable of the settings file.  This will get copied to the CSV that is produced by testssl.sh.  Upon import. the certificate will be tagged as an external certificate.
+
+to run a sample import  
+``python3 /usr/local/bin/import_testssl.sh_csv_to_ES.py --user elastic --password S7WZUvLZi9rBPjnFDFd0 --index testssl workdir/mail.thesmithcave.nz_p110-20220416-1112.csv ``
+
+
+#TODO:
+ - check time on file to time in ES on imported file
+ - scan file with IP only to check default filename to see if conforms to original regex
+ - tags - allow defining
+ 
+ - change to use ECS for usability -testing
+ - option to import only, or scan only - done but needs testing
+ 
+ #DONE:
+  - fix masscan unable to accept --elasticsearch command line option correctly - TESTING - only allowed one host
+ - add date/month to index name - DONE
+  - add ability to determine programatically what is external hosts when scanned internally - DONE
+ 
