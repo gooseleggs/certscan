@@ -9,7 +9,11 @@ RUN apt update && \
 	ln -s /home/certscan/testssl.sh/testssl.sh /usr/local/bin && \
 	git clone https://github.com/gooseleggs/testssl.sh-masscan.git && \
 	ln -s /home/certscan/testssl.sh-masscan/generate_scan_file.py /usr/local/bin && \
-	ln -s /home/certscan/testssl.sh-masscan/import_testssl.sh_csv_to_ES.py /usr/local/bin
+	ln -s /home/certscan/testssl.sh-masscan/import_testssl.sh_csv_to_ES.py /usr/local/bin && \
+	git clone https://github.com/gooseleggs/certscan.git && \
+	ln -s /home/certscan/certscan/certscan.sh /usr/local/bin && \
+	ln -s /home/certscan/certscan/ssl_load_hosts.py /usr/local/bin && \
+	ln -s /home/certscan/certscan/ssl_split_scans.py /usr/local/bin
 	
 RUN cd /home/certscan/ && git clone https://github.com/ernw/nmap-parse-output.git && \
 	ln -s /home/certscan/nmap-parse-output/nmap-parse-output /usr/local/bin && \
@@ -35,6 +39,7 @@ WORKDIR /home/certscan/
 #COPY --chown=testssl:testssl bin/. /home/testssl/bin/
 #COPY --chown=testssl:testssl testssl.sh /home/testssl/
 
-ENTRYPOINT ["certscan.sh"]
+#ENTRYPOINT ["certscan.sh"]
+CMD ["certscan.sh"]
 
 #CMD ["--help"]
