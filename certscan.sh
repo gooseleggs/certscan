@@ -6,11 +6,11 @@
 #
 #############################################################
 
-NMAP_OPTIONS="T4 --top-ports 100 "
-NMAP_SCANFILE="nmap_scan"
-WORKDIR=/home/certscan/certscan/workdir
-TESTSSL_OPTIONS="--openssl-timeout=60 -q --overwrite "
-NAMED_SCANFILE="named_scan"
+NMAP_OPTIONS=${NMAP_OPTIONS:="T4 "}
+NMAP_SCANFILE=${NMAP_SCANFILE:="nmap_scan"}
+WORKDIR=${WORKDIR:=/home/certscan/certscan/workdir}
+TESTSSL_OPTIONS=${TESTSSL_OPTIONS:"--openssl-timeout=60 -q --overwrite "}
+NAMED_SCANFILE=${NAMED_SCANFILE:="named_scan"}
 
 # Username for connection
 USERNAME=${USERNAME:=user}
@@ -47,14 +47,7 @@ do
 	shift
 done
 
-
-# Now we have everything, lets load it into Elastic if we can
-#echo "Importing result files into Elastic..."
-#python3 /usr/local/bin/import_testssl.sh_csv_to_ES.py --user $USERNAME --password $PASSWORD --index $INDEX --elasticsearch $ELASTICHOST $WORKDIR/*.csv 
-
-#exit
-
-if $DO_SCAN; then
+if [ "$DO_SCAN" = true ]; then
 	echo "Clearing out any previous results"
 	rm -f $WORKDIR/*.csv
 	rm -f $WORKDIR/*.log
@@ -149,7 +142,7 @@ if $DO_SCAN; then
 	done
 fi
 
-if $DO_IMPORT; then
+if [ "$DO_IMPORT" = true ]; then
 	# Now we have everything, lets load it into Elastic if we can
 	echo "Importing result files into Elastic..."
 	#python3 /usr/local/bin/import_testssl.sh_csv_to_ES.py --user $USER --password $PASSWORD --index $INDEX --elasticsearch "$ELASTICHOST" $WORKDIR/*.csv 
