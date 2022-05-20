@@ -12,13 +12,28 @@ WORKDIR=/home/certscan/certscan/workdir
 TESTSSL_OPTIONS="--openssl-timeout=60 -q --overwrite "
 NAMED_SCANFILE="named_scan"
 
-# Read in config settings
-. $WORKDIR/settings.conf
-
-DO_SCAN=true
-DO_IMPORT=true
+# Username for connection
+USERNAME=${USERNAME:=user}
+# Password for SSL connection
+PASSWORD=${PASSWORD:="password"}
+# The hostname ip/url and port
+ELASTICHOST=${ELASTICHOST:="127.0.0.1:9200"}
+# The prefix of the index to create in Elastic.  The year and month are appended to the index name automatically
+INDEX=${INDEX:="testssl"}
+# The following variable is a space separated list of hosts and urls that should be treated as external sites, even if internal
+EXTERNAL_HOSTS=${EXTERAL_HOSTS:=""}
+# Scan the networks
+DO_SCAN=${DO_SCAN:=true}
+# Import the results
+DO_IMPORT=${DO_IMPORT:=true}
 
 echo "CERTSCAN.sh - automate finding, scanning and adding to Elastic SSL certs on networks"
+
+# Read in config settings if file exists
+if [ -f $WORKDIR/settings.conf ]; then
+	echo "Reading in configuration settings"
+	. $WORKDIR/settings.conf
+fi
 
 # process command line parameters
 while [ -n "$1" ]
@@ -78,7 +93,7 @@ if $DO_SCAN; then
 	for f in $WORKDIR/scan_ips*; do
 		if [ ! -e "$f" ]; then
 			echo "No scan files found...exiting"
-			exit
+			break
 		fi 
 		echo "Processing $f file..";
 		
