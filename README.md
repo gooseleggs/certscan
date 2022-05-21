@@ -42,9 +42,12 @@ When you are performing a scan internally, there may be some hosts that are also
 When NMAP does a scan, it might find a host:port combination, but if you have, for example a number of web servers running on that port, it will not find the other servers.  By passing through/creating the *NAMED_SCANFILE* file, a list of URLs:ports or ip:port combinations in testssl.sh format will also be scanned and added to the output.  This way, a complete picture can be found.
 
 ## Dashboard
-The dashboard is distributed as part of my testssl.sh-masscan fork.  Therefore, jump to that repo to download the dashbaord.  The repo is located here: [https://github.com/gooseleggs/testssl.sh-masscan]
+The dashboard is distributed as part of my testssl.sh-masscan fork.  Therefore, jump to that repo to download the dashbaord.  The repo is located here: https://github.com/gooseleggs/testssl.sh-masscan.
+
 
 # Docker
+I highly recommend that this is run in a docker container, as it requires privileges to the change the host files to enable this to work correctly.  Testssl.sh does not allow to pass through a CN name.  To get around this, the host file is manipulated so that it is started using a hostname.  By doing this in a docker container, the host system IS NOT being manipulated.
+
 To build this as a docker image, clone the git repository, then run
 
 `docker build -t certscan.sh:latest .`
