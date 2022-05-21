@@ -78,7 +78,7 @@ if [ "$DO_SCAN" = true ]; then
 	# if we have an npo output file, lets get the scanning order sorted
 	if [ -f $WORKDIR/npo ]; then
 		echo "parsing nmap-parse-output results to generate scan file and orders"
-		python3 ssl_split_scans.py -i $WORKDIR/npo -d $WORKDIR -q
+		ssl_split_scans.py -i $WORKDIR/npo -d $WORKDIR -q
 	fi
 
 	echo "Parsing scan files"
@@ -97,12 +97,12 @@ if [ "$DO_SCAN" = true ]; then
 		NUMBER=$(echo $f | tr -dc '0-9')
 	
 		# empty out hosts files from any previous run
-		python3 ssl_load_hosts.py -d -q
+		ssl_load_hosts.py -d -q
 	
 		# If the equivalent hosts file exists, then load it in
 		if [ -f $WORKDIR/scan_hosts$NUMBER ]; then
 			echo "  Loading hosts file"
-			python3 ssl_load_hosts.py -i $WORKDIR/scan_hosts$NUMBER -q
+			ssl_load_hosts.py -i $WORKDIR/scan_hosts$NUMBER -q
 		fi
 	
 		# generate the scan file
@@ -120,7 +120,7 @@ if [ "$DO_SCAN" = true ]; then
 	done
 
 	# empty out hosts files to exit clean
-	python3 ssl_load_hosts.py -d -q
+	ssl_load_hosts.py -d -q
 
 	#echo $WORKDIR/$NAMED_SCAN
 	# If there is a named scan file, then process/scan that
@@ -146,5 +146,5 @@ if [ "$DO_IMPORT" = true ]; then
 	# Now we have everything, lets load it into Elastic if we can
 	echo "Importing result files into Elastic..."
 	#python3 /usr/local/bin/import_testssl.sh_csv_to_ES.py --user $USER --password $PASSWORD --index $INDEX --elasticsearch "$ELASTICHOST" $WORKDIR/*.csv 
-	python3 /usr/local/bin/import_testssl.sh_csv_to_ES.py --user $USERNAME --password $PASSWORD --index $INDEX --elasticsearch $ELASTICHOST $WORKDIR/*.csv	 
+	python3 /usr/local/bin/import_testssl.sh_csv_to_ES.py --user $USERNAME --password $PASSWORD --elasticsearch $ELASTICHOST --index $INDEX $WORKDIR/*.csv	 
 fi
